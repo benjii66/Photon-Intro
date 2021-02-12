@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class N_NetworkManager : MonoBehaviourPunCallbacks
 {
-    string playerName = "Benjamin";
+    string playerName = "Toto";
 
     void Connect() => PhotonNetwork.ConnectUsingSettings();
     public override void OnConnectedToMaster()
