@@ -342,7 +342,6 @@ MonoBehaviour:
   syncPosition: 1
   syncRotation: 0
   syncScale: 0
-  syncColor: 1
 --- !u!114 &-6036036090665868528
 MonoBehaviour:
   m_ObjectHideFlags: 0
