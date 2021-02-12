@@ -48,6 +48,8 @@ public class N_NetworkManager : MonoBehaviourPunCallbacks
             int _maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
             GUILayout.Box($"Player name {PhotonNetwork.NickName}");
             GUILayout.Box($"Room datas = {PhotonNetwork.CurrentRoom.Name} : {_currentPlayers}/{_maxPlayers} players");
+
         }
+        
     }
 }

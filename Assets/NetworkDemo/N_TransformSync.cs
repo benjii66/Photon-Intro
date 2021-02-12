@@ -15,7 +15,6 @@ public class N_TransformSync : MonoBehaviourPun, IPunObservable
     Vector3 localPosition = Vector3.zero, onlinePosition = Vector3.zero,
             localRotationEuler = Vector3.zero, onlineRotationEuler = Vector3.zero,
             localScale = Vector3.zero, onlineScale = Vector3.zero;
-
     public bool IsValid => photonID;
 
     void Start()
@@ -53,7 +52,6 @@ public class N_TransformSync : MonoBehaviourPun, IPunObservable
         WriteOnlineVector(syncPosition, stream, localPosition);
         WriteOnlineVector(syncRotation, stream, localRotationEuler);
         WriteOnlineVector(syncScale, stream, localScale);
-
         onlinePosition = ReadOnlineVector(stream);
         onlineRotationEuler = ReadOnlineVector(stream);
         onlineScale = ReadOnlineVector(stream);
@@ -71,4 +69,5 @@ public class N_TransformSync : MonoBehaviourPun, IPunObservable
             return (Vector3)_stream.ReceiveNext();
         else return Vector3.zero;
     }
+  
 }
