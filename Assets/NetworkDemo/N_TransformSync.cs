@@ -8,7 +8,6 @@ using System;
 public class N_TransformSync : MonoBehaviourPun, IPunObservable
 {
     public event Action OnUpdatePlayer = null;
-    string name = "coucoucestmoi";
 
     [SerializeField] PhotonView photonID = null;
     [SerializeField] bool syncPosition = true, syncRotation = false, syncScale = false;

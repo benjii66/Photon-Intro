@@ -340,8 +340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photonID: {fileID: 8731318384646708529}
   syncPosition: 1
-  syncRotation: 0
-  syncScale: 0
+  syncRotation: 1
+  syncScale: 1
 --- !u!114 &-6036036090665868528
 MonoBehaviour:
   m_ObjectHideFlags: 0

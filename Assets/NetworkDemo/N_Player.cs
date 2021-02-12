@@ -5,6 +5,7 @@ using Photon.Pun;
 using System;
 using TMPro;
 using Random = UnityEngine.Random;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class N_Player : MonoBehaviour, IPunObservable
 {
@@ -23,31 +24,34 @@ public class N_Player : MonoBehaviour, IPunObservable
 	void InitPlayer()
 	{
 		photonID = PhotonView.Get(this);
+		playerColor = GetComponent<Renderer>();
 		if (!IsValid) return;
 		nameLabel.text = photonID.Owner.NickName;
-		playerColor = GetComponent<Renderer>();
-		SetColor();
 	}
 
-	void Update() => ApplyColor();
-
-	void ApplyColor()
-	{
+	void SetNetworkColor()
+    {
 		if (!IsValid) return;
-		playerColor.material.color = photonID.IsMine ?
-						   new Color(localColor.x, localColor.y, localColor.z) :
-						   new Color(onlineColor.x, onlineColor.y, onlineColor.z);
-	}
+		float[] _colorFloat = null;
+		Color _color = Color.white;
+		if (photonID.IsMine)
+        {
+			Hashtable _properties = new Hashtable();
+			_color = Random.ColorHSV();
+			_colorFloat = new float[] { _color.r, _color.g, _color.b };
+			_properties.Add("color", _colorFloat);
+			photonID.Owner.SetCustomProperties(_properties);
+		}
+		else
+        {
+			_colorFloat = (float[])photonID.Owner.CustomProperties["color"];
+			_color = new Color(_colorFloat[0], _colorFloat[1], _colorFloat[2]);
+        }
+		playerColor.material.color = _color;
+    }
 
-	void SetColor()
-	{
-		Color _color = Random.ColorHSV();
-		localColor = new Vector3(_color.r, _color.g, _color.b);
-	}
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
-		if (stream.IsWriting)
-			stream.Serialize(ref localColor);
-		else onlineColor = (Vector3)stream.ReceiveNext();
+		SetNetworkColor();
 	}
 }
