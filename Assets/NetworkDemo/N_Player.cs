@@ -3,48 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using TMPro;
 
-public class N_Player : MonoBehaviour, IPunObservable
+public class N_Player : MonoBehaviour
 {
     public event Action OnUpdatePlayer = null;
-    [SerializeField] Vector3 localPosition = Vector3.zero, onlinePosition = Vector3.zero;
-    [SerializeField] Quaternion localRotation = Quaternion.identity, onlineRotation = Quaternion.identity;
     [SerializeField] PhotonView photonID = null;
+    [SerializeField] TMP_Text nameLabel = null;
     public bool IsValid => photonID;
 
     void Start()
     {
+        InitPlayer();
+    }
+
+  void InitPlayer()
+	{
         photonID = PhotonView.Get(this);
         if (!IsValid) return;
-        if(photonID.IsMine) OnUpdatePlayer += UpdateLocal;
-        else OnUpdatePlayer += UpdateOnline;
-    }
-
-    void Update() => OnUpdatePlayer?.Invoke();
-
-    void UpdateLocal()
-    {
-        localPosition = transform.position;
-        localRotation = transform.rotation;
-    }
-
-    void UpdateOnline()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, onlinePosition, .1f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, onlineRotation, .1f);
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if(stream.IsWriting)
-        {
-            stream.Serialize(ref localPosition);
-            stream.Serialize(ref localRotation);
-        }
-        else
-        {
-            onlinePosition = (Vector3)stream.ReceiveNext();
-            onlineRotation = (Quaternion)stream.ReceiveNext();
-        }
-    }
+        nameLabel.text = photonID.Owner.NickName;
+	}
 }
