@@ -34,7 +34,7 @@ public class N_NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.Instantiate("Player", Random.insideUnitSphere * 5, Quaternion.identity);
+        PhotonNetwork.Instantiate("BenPlayer", Random.insideUnitSphere * 5, Quaternion.identity);
     }
 
     private void OnGUI()
