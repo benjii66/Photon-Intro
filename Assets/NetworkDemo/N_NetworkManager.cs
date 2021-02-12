@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class N_NetworkManager : MonoBehaviourPunCallbacks
 {
-    string playerName = "Toto";
+    NC_Const allString = new NC_Const();
 
     void Connect() => PhotonNetwork.ConnectUsingSettings();
     public override void OnConnectedToMaster()
@@ -16,7 +16,7 @@ public class N_NetworkManager : MonoBehaviourPunCallbacks
         {
             MaxPlayers = 4
         };
-        PhotonNetwork.JoinOrCreateRoom("O3D", _room, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(allString.Room, _room, TypedLobby.Default);
         Debug.Log("OK to master");
     }
 
@@ -41,7 +41,7 @@ public class N_NetworkManager : MonoBehaviourPunCallbacks
     {
         if (GUILayout.Button("Connect")) Connect();
         GUILayout.Box(PhotonNetwork.NetworkClientState.ToString());
-        PhotonNetwork.NickName = GUILayout.TextField(playerName);
+        PhotonNetwork.NickName = GUILayout.TextField(allString.PlayerName);
         if(PhotonNetwork.InRoom)
         {
             int _currentPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
