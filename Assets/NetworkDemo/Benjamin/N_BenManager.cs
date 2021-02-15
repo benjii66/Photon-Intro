@@ -4,9 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class N_NetworkManager : MonoBehaviourPunCallbacks
+public class N_BenManager : MonoBehaviourPunCallbacks
 {
     NC_Const allString = new NC_Const();
+
+    List<string> Messages = new List<string>();
 
     void Connect() => PhotonNetwork.ConnectUsingSettings();
     public override void OnConnectedToMaster()
@@ -34,15 +36,23 @@ public class N_NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.Instantiate("Player", Random.insideUnitSphere * 5, Quaternion.identity);
+        PhotonNetwork.Instantiate("BenPlayer", Random.insideUnitSphere * 5, Quaternion.identity);
     }
 
     private void OnGUI()
     {
+        GUILayout.TextField($"oui");
+        if (GUILayout.Button("Send"))Debug.Log("Message Sent");
         if (GUILayout.Button("Connect")) Connect();
+
+        for (int i = 0; i < Messages.Count; i++)
+        {
+            GUILayout.Box($"{PhotonNetwork.NickName} {System.DateTime.Now}");
+            Debug.Log($"Message {Messages[i]}");
+        }
         GUILayout.Box(PhotonNetwork.NetworkClientState.ToString());
         PhotonNetwork.NickName = GUILayout.TextField(allString.PlayerName);
-        if(PhotonNetwork.InRoom)
+        if (PhotonNetwork.InRoom)
         {
             int _currentPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
             int _maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
@@ -50,6 +60,6 @@ public class N_NetworkManager : MonoBehaviourPunCallbacks
             GUILayout.Box($"Room datas = {PhotonNetwork.CurrentRoom.Name} : {_currentPlayers}/{_maxPlayers} players");
 
         }
-        
+
     }
 }

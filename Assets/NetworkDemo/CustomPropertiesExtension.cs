@@ -15,7 +15,7 @@ public static class CustomPropertiesExtension
         _colorTable.Add("color", _colorFloat);
         _view.Owner.SetCustomProperties(_colorTable);
     }
-
+  
     public static Color GetColorOnline(this PhotonView _view)
     {
         bool _canGetColor = _view.Owner.CustomProperties["color"] != null;
